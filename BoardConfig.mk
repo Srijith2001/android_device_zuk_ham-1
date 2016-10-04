@@ -122,12 +122,13 @@ TARGET_USES_MKE2FS := true
 TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/config.fs
 
 # Graphics
-USE_OPENGL_RENDERER := true
-TARGET_CONTINUOUS_SPLASH_ENABLED := true
-TARGET_USES_ION := true
-OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
-HAVE_ADRENO_SOURCE:= false
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+USE_OPENGL_RENDERER 			:= true
+TARGET_CONTINUOUS_SPLASH_ENABLED 	:= true
+TARGET_USES_ION 			:= true
+OVERRIDE_RS_DRIVER 			:= libRSDriver_adreno.so
+HAVE_ADRENO_SOURCE			:= false
+NUM_FRAMEBUFFER_SURFACE_BUFFERS 	:= 3
+TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS	:= true
 
 # Shader cache config options
 # Maximum size of the  GLES Shaders that can be cached for reuse.
