@@ -42,6 +42,9 @@ drm.service.enabled=true
 # Network
 persist.data.qmi.adb_logmask=0
 
+# Network
+persist.data.qmi.adb_logmask=0
+
 # sensors
 ro.qc.sdk.camera.facialproc=true
 ro.qc.sdk.gestures.camera=false
