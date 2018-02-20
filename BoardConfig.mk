@@ -234,7 +234,7 @@ DONT_DEXPREOPT_PREBUILTS := true
 TARGET_USE_SDCLANG := true
 
 # Extended filesystem support
-TARGET_KERNEL_HAVE_EXFAT := true
+TARGET_EXFAT_DRIVER := exfat
 
 # SELinux policies
 # qcom sepolicy
