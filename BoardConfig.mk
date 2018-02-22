@@ -233,6 +233,9 @@ DONT_DEXPREOPT_PREBUILTS := true
 # Use Snapdragon LLVM Compiler
 TARGET_USE_SDCLANG := true
 
+# Extended filesystem support
+TARGET_KERNEL_HAVE_EXFAT := true
+
 # SELinux policies
 # qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
