@@ -41,7 +41,7 @@
 #include "power-common.h"
 
 #define LOG_TAG "QCOM PowerHAL"
-#include <utils/Log.h>
+#include <log/log.h>
 
 #define USINSEC 1000000L
 #define NSINUS 1000L
