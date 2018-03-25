@@ -225,6 +225,24 @@ int get_scaling_governor_check_cores(char governor[], int size,int core_num)
    return 0;
 }
 
+int is_ondemand_governor(char* governor) {
+    if (strncmp(governor, ONDEMAND_GOVERNOR, (strlen(ONDEMAND_GOVERNOR)+1)) == 0)
+       return 1;
+    return 0;
+}
+
+int is_interactive_governor(char* governor) {
+    if (strncmp(governor, INTERACTIVE_GOVERNOR, (strlen(INTERACTIVE_GOVERNOR)+1)) == 0)
+       return 1;
+    return 0;
+}
+
+int is_msmdcvs_governor(char* governor) {
+    if (strncmp(governor, MSMDCVS_GOVERNOR, (strlen(MSMDCVS_GOVERNOR)+1)) == 0)
+       return 1;
+    return 0;
+}
+
 void interaction(int duration, int num_args, int opt_list[])
 {
     static int lock_handle = 0;
