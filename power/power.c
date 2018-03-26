@@ -173,8 +173,6 @@ int __attribute__ ((weak)) power_hint_override(
     return HINT_NONE;
 }
 
-extern void interaction(int duration, int num_args, int opt_list[]);
-
 void power_hint(power_hint_t hint,
         void *data)
 {
