@@ -286,4 +286,8 @@
 
     <!-- Screen Brightness when dozing -->
     <integer name="config_screenBrightnessDoze">17</integer>
+
+   <bool name="config_button_brightness_support">true</bool>
+   <integer name="config_button_brightness_default">128</integer>
+
 </resources>
