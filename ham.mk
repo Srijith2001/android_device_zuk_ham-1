@@ -243,6 +243,14 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.vr.high_performance.xml:system/vendor/etc/permissions/android.hardware.vr.high_performance.xml
 
+# Telephony-ext
+PRODUCT_PACKAGES += \
+    qti-telephony-common \
+    telephony-ext
+
+PRODUCT_BOOT_JARS += \
+    telephony-ext
+
 # USB
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
