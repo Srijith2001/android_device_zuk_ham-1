@@ -237,12 +237,6 @@ int is_interactive_governor(char* governor) {
     return 0;
 }
 
-int is_msmdcvs_governor(char* governor) {
-    if (strncmp(governor, MSMDCVS_GOVERNOR, (strlen(MSMDCVS_GOVERNOR)+1)) == 0)
-       return 1;
-    return 0;
-}
-
 void interaction(int duration, int num_args, int opt_list[])
 {
     static int lock_handle = 0;
