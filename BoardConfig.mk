@@ -181,9 +181,6 @@ BOARD_USES_CYANOGEN_HARDWARE := true
 # Offmode Charging
 BOARD_HEALTHD_CUSTOM_CHARGER_RES := device/zuk/ham/charger/images
 
-# No old RPC for prop
-TARGET_NO_RPC := true
-
 # GPS HAL lives here
 USE_DEVICE_SPECIFIC_GPS := true
 USE_DEVICE_SPECIFIC_LOC_API := true
