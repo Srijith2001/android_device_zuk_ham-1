@@ -277,7 +277,6 @@
         <item>XTRA_SERVER_2=https://xtrapath2.izatcloud.net/xtra3grc.bin</item>
         <item>XTRA_SERVER_3=https://xtrapath3.izatcloud.net/xtra3grc.bin</item>
         <item>XTRA_VERSION_CHECK=1</item>
-        <item>NTP_SERVER=north-america.pool.ntp.org</item>
         <item>SUPL_MODE=1</item>
         <item>SUPL_VER=0x10000</item>
         <item>LPP_PROFILE=0</item>
