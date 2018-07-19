@@ -104,6 +104,11 @@ vendor/firmware/cpp_firmware_v1_1_1.fw
 vendor/firmware/cpp_firmware_v1_1_6.fw
 vendor/firmware/cpp_firmware_v1_2_0.fw
 
+# CNE from Shamrock
+vendor/lib/com.quicinc.cne.api@1.0.so:vendor/lib/com.quicinc.cne.api@1.0.so
+vendor/lib/com.quicinc.cne.constants@1.0.so:vendor/lib/com.quicinc.cne.constants@1.0.so
+vendor/lib/libcneapiclient.so
+
 # DRM
 vendor/bin/qseecomd
 vendor/lib/libQSEEComAPI.so
@@ -125,9 +130,11 @@ vendor/lib/hw/vendor.qti.hardware.fm@1.0-impl.so
 vendor/lib/vendor.qti.hardware.fm@1.0_vendor.so
 
 # GPS
+bin/loc_launcher:vendor/bin/loc_launcher
 vendor/bin/loc_launcher
 vendor/lib/libloc_api_v02.so
 vendor/lib/libloc_ds_api.so
+
 vendor/lib/hw/flp.default.so
 vendor/lib/libflp.so
 vendor/lib/libgeofence.so
@@ -186,7 +193,7 @@ vendor/lib/libdisp-aba.so
 vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so
 
-# Qualcomm framework - old blobs
+# Qualcomm framework
 vendor/bin/irsc_util|f2600a52281d6accb3920c409528339d4bcf8af8
 vendor/lib/libdataitems.so|297ed3635678e5572574f05361a07e943532f05c
 vendor/lib/libdiag.so|c68faab4886e5223b1da0e8c274869f3e42e2e8f
@@ -207,9 +214,9 @@ vendor/lib/libqmiservices.so|0f21b1c0b143747cae4a906b68feffe704c08b18
 vendor/lib/libsmemlog.so|fd37bb4967c4b9b979646d17390ad5b82792f5e6
 vendor/lib/libsystem_health_mon.so|aecf68c1d139a027cbd296597647226a6d511421
 
-# Radio - old blobs
+# Radio 
 -priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk|145008635c9241d559304587b538ce4ce451c50e
--app/shutdownlistener/shutdownlistener.apk|35c556c7a7dce84a727216d09d8c21e7a0c71024
+-app/shutdownlistener/shutdownlistener.apk:vendor/app/shutdownlistener/shutdownlistener.apk
 vendor/bin/diag_mdlog|073b997287573093ddd86410454d9818a7fbbb83
 vendor/bin/netmgrd|1a793e19b42931127e3e65de7e22c7794599d71e
 vendor/bin/qmuxd|5e76e48f1679443c884a681b7dfd6d12694f4cc3
@@ -264,7 +271,7 @@ vendor/lib/libthermalioctl.so
 vendor/bin/time_daemon
 vendor/lib/libtime_genoff.so
 vendor/lib/libTimeService.so
--app/TimeService/TimeService.apk
+-app/TimeService/TimeService.apk:vendor/app/TimeService/TimeService.apk
 
 # venus
 vendor/firmware/venus.b00
@@ -274,6 +281,11 @@ vendor/firmware/venus.b03
 vendor/firmware/venus.b04
 vendor/firmware/venus.mbn
 vendor/firmware/venus.mdt
+
+# Widevine - from LG v30
+vendor/bin/hw/android.hardware.drm@1.0-service.widevine:vendor/bin/hw/android.hardware.drm@1.0-service.widevine
+vendor/etc/init/android.hardware.drm@1.0-service.widevine.rc:vendor/etc/init/android.hardware.drm@1.0-service.widevine.rc
+vendor/lib/libwvhidl.so:vendor/lib/libwvhidl.so
 
 # WiFi
 -vendor/lib/libwpa_qmi_eap_proxy.so
