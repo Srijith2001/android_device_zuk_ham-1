@@ -129,8 +129,8 @@ extern void interaction(int duration, int num_args, int opt_list[]);
 int power_hint_override(__attribute__((unused)) struct power_module *module,
         power_hint_t hint, void *data)
 {
-    if (hint == POWER_HINT_SET_PROFILE) {
-        set_power_profile(*(int32_t *)data);
+    if (hint == POWER_HINT_LOW_POWER) {
+        set_power_profile(PROFILE_POWER_SAVE);
         return HINT_HANDLED;
     }
 
@@ -145,17 +145,6 @@ int power_hint_override(__attribute__((unused)) struct power_module *module,
         int resources[] = { CPUS_ONLINE_MIN_3, 0x211, 0x311, 0x411};
 
         interaction(duration, ARRAY_SIZE(resources), resources);
-
-        return HINT_HANDLED;
-    }
-
-    if (hint == POWER_HINT_CPU_BOOST) {
-        int duration = *(int32_t *)data / 1000;
-        int resources[] = { CPUS_ONLINE_MIN_2,
-            0x20B, 0x30B, 0x40B, 0x50B };
-
-        if (duration)
-            interaction(duration, ARRAY_SIZE(resources), resources);
 
         return HINT_HANDLED;
     }
