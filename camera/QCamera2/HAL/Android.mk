@@ -43,19 +43,15 @@ LOCAL_C_INCLUDES := \
         frameworks/native/include \
 	frameworks/native/libs/nativewindow/include \
         frameworks/native/include/media/openmax \
-        $(call project-path-for,qcom-display)/libgralloc \
-        $(call project-path-for,qcom-media)/libstagefrighthw \
+        hardware/qcom/display-caf/msm8974/libgralloc \
+        hardware/qcom/media-caf/msm8974/libstagefrighthw \
         $(LOCAL_PATH)/../../mm-image-codec/qexif \
         $(LOCAL_PATH)/../../mm-image-codec/qomx_core \
         $(LOCAL_PATH)/../util \
         $(LOCAL_PATH)/wrapper \
         system/media/camera/include
 
-ifeq ($(TARGET_USE_VENDOR_CAMERA_EXT),true)
-LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/msm8974/libgralloc
-else
-LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/libgralloc
-endif
+LOCAL_C_INCLUDES += hardware/qcom/display-caf/msm8974/libgralloc
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/media
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
