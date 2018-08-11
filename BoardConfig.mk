@@ -190,9 +190,6 @@ TARGET_LEGACY_HW_DISK_ENCRYPTION := true
 # Added to indicate that protobuf-c is supported in this build
 PROTOBUF_SUPPORTED 		:= true
 
-# ANT+ - TODO: Confirm this - TODO: Confirm this - TODO: Confirm this - TODO: Confirm this
-BOARD_ANT_WIRELESS_DEVICE 	:= "vfs-prerelease"
-
 ifeq ($(HOST_OS),linux)
   ifeq ($(TARGET_BUILD_VARIANT),eng)
     ifeq ($(WITH_DEXPREOPT),)
