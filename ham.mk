@@ -201,14 +201,6 @@ PRODUCT_PACKAGES += \
     rcs_service_api \
     rcs_service_api.xml
 
-# Telephony-ext
-PRODUCT_PACKAGES += \
-    qti-telephony-common \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
-
 # USB
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
