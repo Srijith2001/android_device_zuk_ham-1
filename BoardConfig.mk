@@ -95,7 +95,7 @@ BOARD_CHARGER_DISABLE_INIT_BLANK 	:= true
 BOARD_GLOBAL_CFLAGS 			+= -DBATTERY_REAL_INFO
 
 # Tap to wake
-TARGET_TAP_TO_WAKE_NODE :="/sys/devices/virtual/touch/tp_dev/gesture_on"
+TARGET_TAP_TO_WAKE_NODE := /sys/devices/virtual/touch/tp_dev/gesture_on
 
 # Extended filesystem support
 TARGET_EXFAT_DRIVER := exfat
