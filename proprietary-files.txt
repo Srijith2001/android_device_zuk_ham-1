@@ -113,8 +113,8 @@ vendor/lib/librpmb.so
 vendor/lib/libssd.so
 
 # Fingerprint
-lib/hw/fingerprint.msm8974.so:vendor/lib/hw/fingerprint.msm8974.so
-lib/lib_fpc_tac_shared.so:vendor/lib/lib_fpc_tac_shared.so
+vendor/lib/hw/fingerprint.msm8974.so
+vendor/lib/lib_fpc_tac_shared.so
 
 # Widevine
 vendor/lib/mediadrm/libwvdrmengine.so
@@ -259,14 +259,14 @@ vendor/lib/libTimeService.so
 -app/TimeService/TimeService.apk
 
 # venus
-etc/firmware/venus.b00:vendor/firmware/venus.b00
-etc/firmware/venus.b01:vendor/firmware/venus.b01
-etc/firmware/venus.b02:vendor/firmware/venus.b02
-etc/firmware/venus.b03:vendor/firmware/venus.b03
-etc/firmware/venus.b04:vendor/firmware/venus.b04
-etc/firmware/venus.mbn:vendor/firmware/venus.mbn
-etc/firmware/venus.mdt:vendor/firmware/venus.mdt
+vendor/firmware/venus.b00
+vendor/firmware/venus.b01
+vendor/firmware/venus.b02
+vendor/firmware/venus.b03
+vendor/firmware/venus.b04
+vendor/firmware/venus.mbn
+vendor/firmware/venus.mdt
 
 # WiFi
--lib/libwpa_qmi_eap_proxy.so:vendor/lib/libwpa_qmi_eap_proxy.so
-lib/libwcnss_qmi.so:vendor/lib/libwcnss_qmi.so
+-vendor/lib/libwpa_qmi_eap_proxy.so
+vendor/lib/libwcnss_qmi.so
