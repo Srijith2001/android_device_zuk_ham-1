@@ -37,8 +37,7 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service \
-    fingerprint.msm8974
+    android.hardware.biometrics.fingerprint@2.0-service.ham
 
 # OMX
 PRODUCT_PACKAGES += \
@@ -60,7 +59,8 @@ PRODUCT_PACKAGES += \
 #power
 PRODUCT_PACKAGES += \
     android.hardware.power@1.0-impl \
-    android.hardware.power@1.0-service
+    android.hardware.power@1.0-service \
+    power.msm8974
 
 # RenderScript HAL
 PRODUCT_PACKAGES += \

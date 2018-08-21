@@ -1,6 +1,5 @@
 # Camera
 /data/cam_socket.*                                 			       u:object_r:camera_socket:s0
-/(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.4-service.ham          u:object_r:hal_camera_default_exec:s0
 
 # Sensors
 /persist/sns.reg                                u:object_r:sensors_persist_file:s0
@@ -15,6 +14,10 @@
 /sys/devices/virtual/graphics/fb([0-2])+/hpd                                      u:object_r:sysfs_surfaceflinger:s0
 /sys/devices/virtual/graphics/fb([0-2])+/vendor_name                              u:object_r:sysfs_surfaceflinger:s0
 /sys/devices/virtual/graphics/fb([0-2])+/product_description                      u:object_r:sysfs_surfaceflinger:s0
+
+# HALS
+/(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.4-service\.ham                    u:object_r:hal_camera_default_exec:s0
+/(vendor|system/vendor)/bin/hw/android\.hardware\.biometrics\.fingerprint@2\.0-service\.ham		u:object_r:hal_fingerprint_default_exec:s0
 
 # Fingerprint
 /persist/fingerprintapp(/.*)?                                      u:object_r:fingerprint_persist_file:s0

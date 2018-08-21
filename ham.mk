@@ -123,16 +123,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     DeviceSettings
 
-# Fingerprint
-PRODUCT_PACKAGES += \
-    HamPocketMode
-
 # VNDK-SP:
 PRODUCT_PACKAGES += \
    vndk-sp
 
 # Treble packages
  $(call inherit-product,device/zuk/ham/treble.mk)
+
 
 # Graphics
 PRODUCT_PACKAGES += \
@@ -252,9 +249,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     librmnetctl
 
-# Power
-PRODUCT_PACKAGES += \
-    power.msm8974
 
 # Thermal config
 PRODUCT_COPY_FILES += \
