@@ -1,1 +1,2 @@
-allow netmgrd netmgrd:capability { dac_override };
+#============= netmgrd ==============
+allow netmgrd self:capability dac_override;

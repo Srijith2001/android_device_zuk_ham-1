@@ -1,2 +1,0 @@
-#============= surfaceflinger ==============
-allow surfaceflinger sysfs_surfaceflinger:file write;

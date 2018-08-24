@@ -1,3 +1,4 @@
-allow charger_monitor sysfs:file { read };
-allow charger_monitor charger_monitor:capability { dac_override };
-allow charger_monitor sysfs_spmi_dev:dir { read open };
+#============= charger_monitor =============
+allow charger_monitor self:capability dac_override;
+allow charger_monitor sysfs:file read;
+allow charger_monitor sysfs_spmi_dev:dir { open read };
