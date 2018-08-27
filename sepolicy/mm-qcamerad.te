@@ -1,2 +1,0 @@
-#============= mm-qcamerad ==============
-allow mm-qcamerad vendor_file:file execmod;
