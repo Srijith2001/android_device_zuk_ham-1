@@ -138,7 +138,7 @@ int power_hint_override(power_hint_t hint, void *data)
     }
 
     if (hint == POWER_HINT_LAUNCH) {
-        int duration = 2000;
+        int duration = 1000;
         int resources[] = { CPUS_ONLINE_MIN_3, 0x211, 0x311, 0x411};
 
         interaction(duration, ARRAY_SIZE(resources), resources);
@@ -147,7 +147,7 @@ int power_hint_override(power_hint_t hint, void *data)
     }
 
     if (hint == POWER_HINT_INTERACTION) {
-        int duration = 500, duration_hint = 0;
+        int duration = 200, duration_hint = 0;
         static struct timespec s_previous_boost_timespec;
         struct timespec cur_boost_timespec;
         long long elapsed_time;
