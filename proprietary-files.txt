@@ -159,6 +159,14 @@ vendor/lib/libuiblur.so
 vendor/firmware/a330_pfp.fw
 vendor/firmware/a330_pm4.fw
 
+# Keymaster firmware from shinano-common
+etc/keymaster.b00:vendor/firmware/keymaster/keymaster.b00
+etc/keymaster.b01:vendor/firmware/keymaster/keymaster.b01
+etc/keymaster.b02:vendor/firmware/keymaster/keymaster.b02
+etc/keymaster.b03:vendor/firmware/keymaster/keymaster.b03
+etc/keymaster.flist:vendor/firmware/keymaster/keymaster.flist
+etc/keymaster.mdt:vendor/firmware/keymaster/keymaster.mdt
+
 # Media
 vendor/lib/libHevcSwDecoder.so
 vendor/lib/libOmxAacDec.so
