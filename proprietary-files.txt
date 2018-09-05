@@ -1,8 +1,12 @@
 # ADSP
-vendor/bin/adsprpcd
+bin/adsprpcd:vendor/bin/adsprpcd
 vendor/lib/libadsprpc.so
 vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
+vendor/lib/rfsa/adsp/libfastcvadsp.so
+vendor/lib/rfsa/adsp/libfastcvadsp_skel.so
+vendor/lib/rfsa/adsp/libapps_mem_heap.so
+vendor/lib/rfsa/adsp/libdspCV_skel.so
 
 # Audio
 vendor/lib/libacdbloader.so
@@ -134,7 +138,6 @@ bin/loc_launcher:vendor/bin/loc_launcher
 vendor/bin/loc_launcher
 vendor/lib/libloc_api_v02.so
 vendor/lib/libloc_ds_api.so
-
 vendor/lib/hw/flp.default.so
 vendor/lib/libflp.so
 vendor/lib/libgeofence.so
@@ -223,13 +226,13 @@ vendor/bin/qmuxd|5e76e48f1679443c884a681b7dfd6d12694f4cc3
 vendor/bin/radish|672aa89b475d181cf0ca907a1c5814d94f1d527e
 vendor/bin/rfs_access|80f2b53f2197eed68d8cdcb8f540ddf5de0d6b90
 vendor/bin/rmt_storage|96542502c1f3ff4c2bc0047bbe410d128e650288
-etc/data/dsi_config.xml|7285bcaa59a3d15aa337dc16485a70cf46ff1113
-etc/data/netmgr_config.xml|e59952d9d99fb012347662868f8a8ceac97ff5bd
-etc/permissions/qcnvitems.xml|dc0e70cace2317b5169a454cbc2bbf8887c18d55
-etc/permissions/qcrilhook.xml|9fc58a3d54d20ac1d53bab14608815121aefbce5
-framework/qcnvitems.jar|2bf9f56844bf7548cc7aa85a8115e5d6644e81f3
-framework/qcrilhook.jar|9ea6c63ea7dc0b52c5d81d6dc62b0b0deeb4168c
-framework/ConnectivityExt.jar|99fc5c3f2077578086ad5b4e6338a822949ec753
+vendor/etc/data/dsi_config.xml|7285bcaa59a3d15aa337dc16485a70cf46ff1113
+vendor/etc/data/netmgr_config.xml|e59952d9d99fb012347662868f8a8ceac97ff5bd
+vendor/etc/permissions/qcnvitems.xml|dc0e70cace2317b5169a454cbc2bbf8887c18d55
+vendor/etc/permissions/qcrilhook.xml|9fc58a3d54d20ac1d53bab14608815121aefbce5
+vendor/framework/qcnvitems.jar|2bf9f56844bf7548cc7aa85a8115e5d6644e81f3
+vendor/framework/qcrilhook.jar|9ea6c63ea7dc0b52c5d81d6dc62b0b0deeb4168c
+vendor/framework/ConnectivityExt.jar|99fc5c3f2077578086ad5b4e6338a822949ec753
 vendor/lib/libmdmdetect.so|3656cdf75f1ad9df3de34dc24ba8713ad29adafc
 vendor/lib/libcneapiclient.so|b01a71ce28e9e33a7d6d88a90d37a1aa977abce9
 vendor/lib/libconfigdb.so|7116f6a9872991ea934bb3618fbb9b29787f3a74
@@ -242,7 +245,7 @@ vendor/lib/libxml.so|2be093edb84b0d158cd1963d762930cf2572e8e2
 
 # Sensors - old blobs
 vendor/bin/sensors.qcom|cb99b6a2b6442ce0d86a8d427891623d172365ce
-etc/sensor_def_qcomdev.conf
+etc/sensors/sensor_def_qcomdev.conf:vendor/etc/sensors/sensor_def_qcomdev.conf
 vendor/lib/hw/activity_recognition.msm8974.so|8d2ba1cfafde28d499676425c93d00db1a24fd5c
 vendor/lib/hw/sensors.msm8974.so|d2a190d55d6f2fda8cd59e08536303829d2e394b
 vendor/lib/libsensor1.so|2f40df87db15b795d631da3d906cf58822c3cc88
