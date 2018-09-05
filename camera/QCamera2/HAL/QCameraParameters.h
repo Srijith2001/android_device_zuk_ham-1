@@ -258,10 +258,6 @@ public:
     //AF Bracketing
     static const char KEY_QC_AF_BRACKET[];
     static const char KEY_QC_SUPPORTED_AF_BRACKET_MODES[];
-	
-	//Morpho HDR
-    static const char KEY_QC_MORPHO_HDR[];
-    static const char KEY_QC_SUPPORTED_MORPHO_HDR_MODES[];
 
     //Chroma Flash
     static const char KEY_QC_CHROMA_FLASH[];
@@ -846,7 +842,6 @@ private:
     bool m_bHfrMode;
     int32_t mHfrMode;
     bool m_bDisplayFrame;
-    int32_t mExposureTime;
 };
 
 }; // namespace qcamera

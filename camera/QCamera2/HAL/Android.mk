@@ -51,6 +51,11 @@ LOCAL_C_INCLUDES := \
         $(LOCAL_PATH)/wrapper \
         system/media/camera/include
 
+ifeq ($(TARGET_USE_VENDOR_CAMERA_EXT),true)
+LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/msm8974/libgralloc
+else
+LOCAL_C_INCLUDES += $(call project-path-for,qcom-display)/libgralloc
+endif
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/media
 LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
@@ -65,7 +70,7 @@ LOCAL_HEADER_LIBRARIES := libnativebase_headers
 LOCAL_MODULE_RELATIVE_PATH := hw
 LOCAL_MODULE := camera.$(TARGET_BOARD_PLATFORM)
 LOCAL_MODULE_TAGS := optional
-LOCAL_PROPRIETARY_MODULE := true
+LOCAL_VENDOR_MODULE := true
 
 include $(BUILD_SHARED_LIBRARY)
 

@@ -125,8 +125,6 @@ const char QCameraParameters::KEY_QC_CDS_MODE[] = "cds-mode";
 const char QCameraParameters::KEY_QC_VIDEO_ROTATION[] = "video-rotation";
 const char QCameraParameters::KEY_QC_AF_BRACKET[] = "af-bracket";
 const char QCameraParameters::KEY_QC_SUPPORTED_AF_BRACKET_MODES[] = "af-bracket-values";
-const char QCameraParameters::KEY_QC_MORPHO_HDR[] = "morpho-hdr";
-const char QCameraParameters::KEY_QC_SUPPORTED_MORPHO_HDR_MODES[] = "morpho-hdr-values";
 const char QCameraParameters::KEY_QC_CHROMA_FLASH[] = "chroma-flash";
 const char QCameraParameters::KEY_QC_SUPPORTED_CHROMA_FLASH_MODES[] = "chroma-flash-values";
 const char QCameraParameters::KEY_QC_OPTI_ZOOM[] = "opti-zoom";
@@ -336,6 +334,8 @@ const char QCameraParameters::WHITE_BALANCE_MANUAL_CCT[] = "manual-cct";
 
 static const char* portrait = "portrait";
 static const char* landscape = "landscape";
+
+static int32_t mExposureTime = 0;
 
 const cam_dimension_t QCameraParameters::THUMBNAIL_SIZES_MAP[] = {
     { 512, 288 }, //1.777778
@@ -661,15 +661,12 @@ QCameraParameters::QCameraParameters()
       m_bOptiZoomOn(false),
       m_bHfrMode(false),
       mHfrMode(CAM_HFR_MODE_OFF),
-      m_bDisplayFrame(true),
-      mExposureTime(0)
+      m_bDisplayFrame(true)
 {
     char value[PROPERTY_VALUE_MAX];
-#ifndef DISABLE_DEBUG_LOG
     // TODO: may move to parameter instead of sysprop
     property_get("persist.debug.sf.showfps", value, "0");
     m_bDebugFps = atoi(value) > 0 ? true : false;
-#endif
     m_bReleaseTorchCamera = false;
     m_pTorch = NULL;
 
@@ -739,8 +736,7 @@ QCameraParameters::QCameraParameters(const String8 &params)
     m_bChromaFlashOn(false),
     m_bOptiZoomOn(false),
     m_bHfrMode(false),
-    mHfrMode(CAM_HFR_MODE_OFF),
-    mExposureTime(0)
+    mHfrMode(CAM_HFR_MODE_OFF)
 {
     memset(&m_LiveSnapshotSize, 0, sizeof(m_LiveSnapshotSize));
     m_pTorch = NULL;
@@ -1114,11 +1110,6 @@ int32_t QCameraParameters::setPreviewSize(const QCameraParameters& params)
 
             // set the new value
             CameraParameters::setPreviewSize(width, height);
-
-            // Disable video HDR for 4k DCI
-            if ((width * height) == (4096 * 2160))
-                setVideoHDR(VALUE_OFF);
-
             return NO_ERROR;
         }
     }
@@ -1683,16 +1674,14 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
        updateParamEntry(KEY_QC_VIDEO_HIGH_SPEED_RECORDING, hsrStr);
     }
     // check if HFR is enabled
-    if(hfrStr != NULL &&
-        ((hsrStr != NULL && !strcmp(hsrStr, "off")) || hsrStr == NULL)){
+    if(hfrStr != NULL && strcmp(hfrStr, "off")) {
         hfrMode = lookupAttr(HFR_MODES_MAP,
                                sizeof(HFR_MODES_MAP)/sizeof(QCameraMap),
                                hfrStr);
         if(NAME_NOT_FOUND != hfrMode) newHfrMode = hfrMode;
     }
     // check if HSR is enabled
-    else if(hsrStr != NULL &&
-        ((hfrStr != NULL && !strcmp(hfrStr, "off")) || hfrStr == NULL)){
+    else if (hsrStr != NULL && strcmp(hsrStr,"off")){
         hfrMode = lookupAttr(HFR_MODES_MAP,
                                sizeof(HFR_MODES_MAP)/sizeof(QCameraMap),
                                hsrStr);
@@ -1764,14 +1753,6 @@ int32_t QCameraParameters::setPreviewFrameRate(const QCameraParameters& params)
 {
     const char *str = params.get(KEY_PREVIEW_FRAME_RATE);
     const char *prev_str = get(KEY_PREVIEW_FRAME_RATE);
-    int width, height;
-
-    // Force better preview size for WeChat
-    if (!strcmp(str, "15")) {
-        params.getPreviewSize(&width, &height);
-        if (width == 320 && height == 240)
-            CameraParameters::setPreviewSize(640, 480);
-    }
 
     if ( str ) {
         if ( prev_str &&
@@ -1829,7 +1810,6 @@ int32_t QCameraParameters::setFocusMode(const QCameraParameters& params)
     const char *str = params.get(KEY_FOCUS_MODE);
     const char *prev_str = get(KEY_FOCUS_MODE);
 
-#if 0 // Allow frontend to control scene focus mode
     //Find whether scene mode is Auto or not. We should set focus mode set by app
     //only in Auto scene mode.  For other scene modes, Focus mode corresponding to
     //a scene is decided and set in backend. In HAL, it is taken care in setScenePreferences.
@@ -1837,15 +1817,10 @@ int32_t QCameraParameters::setFocusMode(const QCameraParameters& params)
     const char *scene_str = params.get(KEY_SCENE_MODE);
     if(!strcmp(scene_str, SCENE_MODE_AUTO))
         isAutoSceneMode = TRUE;
-#endif
 
     if (str != NULL) {
         if (prev_str == NULL ||
-#if 0 // Allow frontend to control scene focus mode
             (strcmp(str, prev_str) != 0 && isAutoSceneMode)){
-#else
-            (strcmp(str, prev_str) != 0)){
-#endif
                 rc = setFocusMode(str);
         }
     }
@@ -1918,11 +1893,11 @@ int32_t QCameraParameters::setSceneFocusMode(const QCameraParameters& params)
     if(sceneModeSet && m_pCapability->supported_focus_modes_cnt > 0){
         bool isAutoFocusModeSupported = FALSE;
         for(int i=0;i < m_pCapability->supported_focus_modes_cnt; i++){
-             if(CAM_FOCUS_MODE_CONTINOUS_PICTURE == m_pCapability->supported_focus_modes[i])
+             if(CAM_FOCUS_MODE_AUTO == m_pCapability->supported_focus_modes[i])
                 isAutoFocusModeSupported = TRUE;
         }
         if (isAutoFocusModeSupported) {
-            rc = setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE);
+            rc = setFocusMode(FOCUS_MODE_AUTO);
         } else {
             rc = setFocusMode(FOCUS_MODE_FIXED);
         }
@@ -2355,17 +2330,8 @@ int32_t QCameraParameters::setSceneDetect(const QCameraParameters& params)
  *==========================================================================*/
 int32_t QCameraParameters::setVideoHDR(const QCameraParameters& params)
 {
-    const char *str;
+    const char *str = params.get(KEY_QC_VIDEO_HDR);
     const char *prev_str = get(KEY_QC_VIDEO_HDR);
-    int width, height;
-
-    // Disable video HDR for 4k DCI
-    params.getPreviewSize(&width, &height);
-    if ((width * height) == (4096 * 2160))
-        str = VALUE_OFF;
-    else
-        str = params.get(KEY_QC_VIDEO_HDR);
-
     if (str != NULL) {
         if (prev_str == NULL ||
             strcmp(str, prev_str) != 0) {
@@ -3837,10 +3803,8 @@ int32_t QCameraParameters::initDefaultParameters()
         set(KEY_SUPPORTED_PREVIEW_SIZES, previewSizeValues.string());
         ALOGD("%s: supported preview sizes: %s", __func__, previewSizeValues.string());
         // Set default preview size
-        if (m_pCapability->position == CAM_POSITION_BACK)
-            CameraParameters::setPreviewSize(1920, 1080);
-        else
-            CameraParameters::setPreviewSize(1280, 720);
+        CameraParameters::setPreviewSize(m_pCapability->preview_sizes_tbl[0].width,
+                                         m_pCapability->preview_sizes_tbl[0].height);
     } else {
         ALOGE("%s: supported preview sizes cnt is 0 or exceeds max!!!", __func__);
     }
@@ -3853,16 +3817,12 @@ int32_t QCameraParameters::initDefaultParameters()
         set(KEY_SUPPORTED_VIDEO_SIZES, videoSizeValues.string());
         ALOGD("%s: supported video sizes: %s", __func__, videoSizeValues.string());
         // Set default video size
-        if (m_pCapability->position == CAM_POSITION_BACK)
-            CameraParameters::setVideoSize(1920, 1080);
-        else
-            CameraParameters::setVideoSize(1280, 720);
+        CameraParameters::setVideoSize(m_pCapability->video_sizes_tbl[0].width,
+                                       m_pCapability->video_sizes_tbl[0].height);
 
         //Set preferred Preview size for video
-        if (m_pCapability->position == CAM_POSITION_BACK)
-            set(KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO, "1920x1080");
-        else
-            set(KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO, "1280x720");
+        String8 vSize = createSizesString(&m_pCapability->preview_sizes_tbl[0], 1);
+        set(KEY_PREFERRED_PREVIEW_SIZE_FOR_VIDEO, vSize.string());
     } else {
         ALOGE("%s: supported video sizes cnt is 0 or exceeds max!!!", __func__);
     }
@@ -3959,7 +3919,7 @@ int32_t QCameraParameters::initDefaultParameters()
     set(KEY_QC_RAW_PICUTRE_SIZE, raw_size_str);
 
     //set default jpeg quality and thumbnail quality
-    set(KEY_JPEG_QUALITY, 95);
+    set(KEY_JPEG_QUALITY, 85);
     set(KEY_JPEG_THUMBNAIL_QUALITY, 85);
 
     // Set FPS ranges
@@ -4030,8 +3990,8 @@ int32_t QCameraParameters::initDefaultParameters()
     }
 
     // set focus position, we should get them from m_pCapability
-    m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 0;
-    m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 1023;
+    m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 40;
+    m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 60;
     set(KEY_QC_MIN_FOCUS_POS_INDEX, m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX]);
     set(KEY_QC_MAX_FOCUS_POS_INDEX, m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX]);
 
@@ -4092,7 +4052,7 @@ int32_t QCameraParameters::initDefaultParameters()
             ANTIBANDING_MODES_MAP,
             sizeof(ANTIBANDING_MODES_MAP) / sizeof(QCameraMap));
     set(KEY_SUPPORTED_ANTIBANDING, antibandingValues);
-    setAntibanding(ANTIBANDING_AUTO);
+    setAntibanding(ANTIBANDING_OFF);
 
     // Set Effect
     String8 effectValues = createValuesString(
@@ -4172,15 +4132,13 @@ int32_t QCameraParameters::initDefaultParameters()
     setHighFrameRate(CAM_HFR_MODE_OFF);
 
     // Set Focus algorithms
-    if (m_pCapability->position == CAM_POSITION_BACK) {
-        String8 focusAlgoValues = createValuesString(
-                (int *)m_pCapability->supported_focus_algos,
-                m_pCapability->supported_focus_algos_cnt,
-                FOCUS_ALGO_MAP,
-                sizeof(FOCUS_ALGO_MAP) / sizeof(QCameraMap));
-        set(KEY_QC_SUPPORTED_FOCUS_ALGOS, focusAlgoValues);
-        setSelectableZoneAf(FOCUS_ALGO_AUTO);
-    }
+    String8 focusAlgoValues = createValuesString(
+            (int *)m_pCapability->supported_focus_algos,
+            m_pCapability->supported_focus_algos_cnt,
+            FOCUS_ALGO_MAP,
+            sizeof(FOCUS_ALGO_MAP) / sizeof(QCameraMap));
+    set(KEY_QC_SUPPORTED_FOCUS_ALGOS, focusAlgoValues);
+    setSelectableZoneAf(FOCUS_ALGO_AUTO);
 
     // Set Zoom Ratios
     if (m_pCapability->zoom_supported > 0) {
@@ -4653,13 +4611,6 @@ int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
 
     ALOGE("%s: E minFps = %d, maxFps = %d , vid minFps = %d, vid maxFps = %d",
                 __func__, min_fps, max_fps, vid_min_fps, vid_max_fps);
-
-    /* Cap preview frame rate to 30 FPS */
-    if (max_fps > 30000) {
-        max_fps = 30000;
-        if (min_fps > 30000)
-            min_fps = 30000;
-    }
 
     if(fixedFpsValue != 0) {
       min_fps = (int)fixedFpsValue*1000;
@@ -5318,20 +5269,11 @@ int32_t  QCameraParameters::setExposureTime(const char *expTimeStr)
         int32_t min_exp_time = m_pCapability->min_exposure_time; /* 200 */
         int32_t max_exp_time = m_pCapability->max_exposure_time; /* 2000000 */
 
-        // Cap exposure time to upper/lower limits without returning an error
-        // to prevent crashes in CameraNext
-        if (expTimeUs) {
-            if (expTimeUs > max_exp_time)
-                expTimeUs = max_exp_time;
-            else if (expTimeUs < min_exp_time)
-                expTimeUs = min_exp_time;
-        }
-
         // expTime == 0 means not to use manual exposure time.
         if (expTimeUs == 0 ||
             (expTimeUs >= min_exp_time && expTimeUs <= max_exp_time)) {
             mExposureTime = expTimeUs;
-            ALOGE("####%s, exposure time: %d", __func__, expTimeUs);
+            ALOGD("%s, exposure time: %d", __func__, expTimeUs);
             updateParamEntry(KEY_QC_EXPOSURE_TIME, expTimeStr);
             return AddSetParmEntryToBatch(m_pParamBuf,
                                           CAM_INTF_PARM_EXPOSURE_TIME,
@@ -5434,9 +5376,6 @@ int32_t QCameraParameters::setFlash(const char *flashStr)
             if ( NULL != m_pTorch ) {
                 if ( value == CAM_FLASH_MODE_TORCH && !m_bRecordingHint_new) {
                     m_pTorch->prepareTorchCamera();
-                    // Set preview size to 1080p to fix torch w/ trusted-face usecase,
-                    // without breaking camera in some silly banking apps (like BofA)
-                    CameraParameters::setPreviewSize(1920, 1080);
                 } else {
                     m_bReleaseTorchCamera = true;
                 }
@@ -5893,10 +5832,6 @@ int32_t QCameraParameters::setAntibanding(const char *antiBandingStr)
         int32_t value = lookupAttr(ANTIBANDING_MODES_MAP,
                                    sizeof(ANTIBANDING_MODES_MAP)/sizeof(QCameraMap),
                                    antiBandingStr);
-        if (value == CAM_ANTIBANDING_MODE_OFF) {
-            /* Never disable antibanding */
-            return NO_ERROR;
-        }
         if (value != NAME_NOT_FOUND) {
             ALOGV("%s: Setting AntiBanding value %s", __func__, antiBandingStr);
             updateParamEntry(KEY_ANTIBANDING, antiBandingStr);
@@ -6745,7 +6680,6 @@ int32_t QCameraParameters::setRedeyeReduction(const char *redeyeStr)
  *==========================================================================*/
 cam_denoise_process_type_t QCameraParameters::getWaveletDenoiseProcessPlate()
 {
-#if 0
     char prop[PROPERTY_VALUE_MAX];
     memset(prop, 0, sizeof(prop));
     cam_denoise_process_type_t processPlate = CAM_WAVELET_DENOISE_CBCR_ONLY;
@@ -6770,8 +6704,6 @@ cam_denoise_process_type_t QCameraParameters::getWaveletDenoiseProcessPlate()
         }
     }
     return processPlate;
-#endif
-    return CAM_WAVELET_DENOISE_STREAMLINED_CBCR;
 }
 
 /*===========================================================================
@@ -7043,7 +6975,7 @@ int32_t QCameraParameters::getStreamFormat(cam_stream_type_t streamType,
         break;
     case CAM_STREAM_TYPE_RAW:
         if (mPictureFormat >= CAM_FORMAT_YUV_RAW_8BIT_YUYV) {
-            format = CAM_FORMAT_BAYER_QCOM_RAW_10BPP_RGGB;
+            format = (cam_format_t)mPictureFormat;
         } else {
             format = CAM_FORMAT_BAYER_QCOM_RAW_10BPP_GBRG;
             ALOGE("%s: Raw stream format %d bundled with snapshot",
@@ -7494,7 +7426,7 @@ int QCameraParameters::getJpegQuality()
 {
     int quality = getInt(KEY_JPEG_QUALITY);
     if (quality < 0) {
-        quality = 95; // set to default quality value
+        quality = 85; // set to default quality value
     }
     return quality;
 }

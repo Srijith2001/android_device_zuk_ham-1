@@ -2884,27 +2884,6 @@ bool QCameraStateMachine::isPreviewRunning()
     case QCAMERA_SM_STATE_VIDEO_PIC_TAKING:
     case QCAMERA_SM_STATE_PREVIEW_PIC_TAKING:
     case QCAMERA_SM_STATE_PREPARE_SNAPSHOT:
-    case QCAMERA_SM_STATE_PREVIEW_READY:
-        return true;
-    default:
-        return false;
-    }
-}
-
-/*===========================================================================
- * FUNCTION   : isPreviewReady
- *
- * DESCRIPTION: check if preview is in ready state.
- *
- * PARAMETERS : None
- *
- * RETURN     : true -- preview is in ready state
- *              false -- preview is stopped
- *==========================================================================*/
-bool QCameraStateMachine::isPreviewReady()
-{
-    switch (m_state) {
-    case QCAMERA_SM_STATE_PREVIEW_READY:
         return true;
     default:
         return false;
