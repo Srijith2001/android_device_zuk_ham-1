@@ -20,13 +20,13 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_l_mr1.mk
 # Inherit from ham device
 $(call inherit-product, device/zuk/ham/ham.mk)
 
-# Inherit some common AEX stuff.
-$(call inherit-product, vendor/pixys/config/common.mk)
+# Inherit some common DOT stuff.
+$(call inherit-product, vendor/dot/config/common.mk)
 
 # Boot animation
 TARGET_BOOT_ANIMATION_RES := 1080
 
-PRODUCT_NAME := pixys_ham
+PRODUCT_NAME := dot_ham
 PRODUCT_DEVICE := ham
 PRODUCT_MANUFACTURER := ZUK
 PRODUCT_MODEL := ZUK Z1
