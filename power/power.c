@@ -62,7 +62,7 @@ static int off_input_boost_ms = 0;
 
 static pthread_mutex_t hint_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-static void power_init(__attribute__((unused))struct power_module *module)
+void power_init(void)
 {
     ALOGI("QCOM power HAL initing.");
 }
@@ -175,7 +175,6 @@ static void process_video_encode_hint(void *metadata)
 }
 
 int __attribute__ ((weak)) power_hint_override(
-        __attribute__((unused)) struct power_module *module,
         __attribute__((unused)) power_hint_t hint,
         __attribute__((unused)) void *data)
 {
@@ -184,13 +183,13 @@ int __attribute__ ((weak)) power_hint_override(
 
 extern void interaction(int duration, int num_args, int opt_list[]);
 
-static void power_hint(__attribute__((unused)) struct power_module *module, power_hint_t hint,
+void power_hint(power_hint_t hint,
         void *data)
 {
     pthread_mutex_lock(&hint_mutex);
 
     /* Check if this hint has been overridden. */
-    if (power_hint_override(module, hint, data) == HINT_HANDLED) {
+    if (power_hint_override(hint, data) == HINT_HANDLED) {
         /* The power_hint has been handled. We can skip the rest. */
         goto out;
     }
@@ -215,7 +214,6 @@ out:
 }
 
 int __attribute__ ((weak)) set_interactive_override(
-        __attribute__((unused)) struct power_module *module,
         __attribute__((unused)) int on)
 {
     return HINT_NONE;
@@ -230,7 +228,7 @@ int __attribute__ ((weak)) get_number_of_profiles()
 extern void cm_power_set_interactive_ext(int on);
 #endif
 
-void set_interactive(struct power_module *module, int on)
+void set_interactive(int on)
 {
     char governor[80];
     char tmp_str[NODE_MAX];
@@ -253,7 +251,7 @@ void set_interactive(struct power_module *module, int on)
     cm_power_set_interactive_ext(on);
 #endif
 
-    if (set_interactive_override(module, on) == HINT_HANDLED) {
+    if (set_interactive_override(on) == HINT_HANDLED) {
         goto out;
     }
 
